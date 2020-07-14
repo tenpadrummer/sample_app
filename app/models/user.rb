@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  # attr_accessorを使って「仮想の」属性を作成
+  attr_accessor :remember_token
   # before_saveメソッドで、ユーザーをデータベースに保存する前にemail属性を強制的に小文字に変換
   before_save {self.email = email.downcase}
 
@@ -21,5 +23,17 @@ class User < ApplicationRecord
     BCrypt::Password.create(string, cost: cost)
     # 上のstringはハッシュ化する文字列、costはコストパラメータと呼ばれる値。コストパラメータはハッシュを算出するための計算コストを指定.
     # コストパラメータの値を高くすれば、ハッシュからオリジナルのパスワードを計算で推測することが困難になる。
+  end
+
+  # ランダムなトークンを返す
+  # Ruby標準ライブラリのSecureRandomモジュールにあるurlsafe_base64メソッド
+  # A–Z、a–z、0–9、"-"、"_"のいずれかの文字 (64種類) からなる長さ22のランダムな文字列を返す
+  def User.new_token
+    SecureRandom.urlsafe_base64
+  end
+
+  def remember
+    self.remember_token = User.new_token
+    update_attribute(:remember_digest, User.digest(remember_token))
   end
 end
