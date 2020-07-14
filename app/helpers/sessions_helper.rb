@@ -12,4 +12,11 @@ module SessionsHelper
       @current_user ||= User.find_by(id: session[:user_id])
     end
   end
+
+  # ユーザーがログイン中の状態とは「sessionにユーザーidが存在している」こと
+  # ユーザーがログインしていればtrue、その他ならfalseを返す
+  def logged_in?
+    # nilかどうかをチェックする否定演算子「!」
+    !current_user.nil?
+  end
 end
