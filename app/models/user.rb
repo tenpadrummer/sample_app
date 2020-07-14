@@ -11,4 +11,15 @@ class User < ApplicationRecord
 
   has_secure_password
   validates :password, presence: true, length: { minimum: 6 }
+
+  # 渡された文字列のハッシュ値を返す
+  def User.digest(string)
+    # digestメソッド
+    # costの値を決め、代入。secure_passwordのソースコードを参照。
+    cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
+                              BCrypt::Engine.cost
+    BCrypt::Password.create(string, cost: cost)
+    # 上のstringはハッシュ化する文字列、costはコストパラメータと呼ばれる値。コストパラメータはハッシュを算出するための計算コストを指定.
+    # コストパラメータの値を高くすれば、ハッシュからオリジナルのパスワードを計算で推測することが困難になる。
+  end
 end
