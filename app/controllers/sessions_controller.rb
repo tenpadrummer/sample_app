@@ -4,6 +4,7 @@ class SessionsController < ApplicationController
 
   def create
     user = User.find_by(email: params[:session][:email].downcase)
+    # has_secure_passwordが提供するauthenticateメソッド。ここで、authenticateメソッドは認証に失敗したときにfalseを返す。
     if user && user.authenticate(params[:session][:password])
       log_in user
       redirect_to user
