@@ -3,7 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.5'
 
-gem 'rails', '~> 5.2.4', '>= 5.2.4.2'
+gem 'rails'
 gem 'puma', '~> 3.11'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
@@ -17,6 +17,8 @@ gem 'bcrypt',         '3.1.12'
 gem 'faker',          '1.7.3'
 gem 'will_paginate'
 gem 'bootstrap-will_paginate', '1.0.0'
+gem 'carrierwave'
+gem 'mini_magick'
 
 group :development, :test do
   gem 'sqlite3'
